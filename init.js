@@ -1,3 +1,27 @@
+//Adding CSS stylesheet
+var css = `
+::-webkit-scrollbar {display: none;    width: 0px;background: transparent; }
+@keyframes moveGradient {
+    50% {
+      background-position: 100% 50%;
+    }
+                  
+}
+`,
+    head = document.head || document.getElementsByTagName('head')[0],
+    style = document.createElement('style');
+
+head.appendChild(style);
+
+style.setAttribute("type", 'text/css')
+if (style.styleSheet) {
+    // This is required for IE8 and below.
+    style.styleSheet.cssText = css;
+} else {
+    style.appendChild(document.createTextNode(css));
+}
+///////////////////////////////
+
 //Self executing function
 var style = document.createElement('style');
 let userData = []
@@ -11,31 +35,34 @@ document.getElementsByTagName('head')[0].appendChild(style);
 getFriends = () => {
     username = $(".css-truncate-target.ml-1").first().text().trim();
     console.log(username);
-    $.ajax({
-        url: "https://api.github.com/users/" + username + "/following",
-        dataType: "json",
-        method: "GET",
-        data: {
-            authorization: "token e75064dead9a148752ea665e2676c32875866e39"
-        },
-        headers: {
-            authorization: "token e75064dead9a148752ea665e2676c32875866e39"
-        },
-        success: (res) => {
-            //renderResult(res);
-            getStoriesDataFromServer(res)
-        },
-        error: (...err) => {
-            console.log(err)
-        }
-    })
+    // $.ajax({
+    //     url: "https://api.github.com/users/" + username + "/following",
+    //     dataType: "json",
+    //     method: "GET",
+    //     data: {
+    //         authorization: "token e75064dead9a148752ea665e2676c32875866e39"
+    //     },
+    //     headers: {
+    //         authorization: "token e75064dead9a148752ea665e2676c32875866e39"
+    //     },
+    //     success: (res) => {
+    //         //renderResult(res);
+    //         getStoriesDataFromServer(res)
+    //     },
+    //     error: (...err) => {
+    //         console.log(err)
+    //     }
+    // })
+    getStoriesDataFromServer(username)
 }
 
-getStoriesDataFromServer = (li) => {
+getStoriesDataFromServer = (name) => {
     $.ajax({
         type: "post",
         url: "http://127.0.0.1:5000/getImages",
-        data: JSON.stringify(li),
+        data: JSON.stringify({
+            'name': name
+        }),
         contentType: 'application/json;charset=UTF-8',
         success: (res) => {
             //console.log(res);
@@ -109,6 +136,7 @@ renderResult = (li) => {
         background-position: 0 50%;
         border-radius: calc(2 * var(--radius));
         animation: moveGradient 4s alternate infinite;
+
         "></div></div>
         `
         $('#stories').append(elem);
@@ -273,7 +301,7 @@ showStories = (start, data) => {
 
             //Adding image to elem
             $(img).css({
-                "background-image": "url(http://127.0.0.1:5500/" + data[i]['story'][j] + ")",
+                "background-image": "url(http://127.0.0.1:5000/" + data[i]['story'][j] + ")",
                 "background-position": "center",
                 "background-size": "contain",
                 "background-repeat": "no-repeat",
@@ -309,6 +337,13 @@ showStories = (start, data) => {
             console.log("Current Timeout", currentTimeout);
         }, wait)
     })(data, start, 0, true)
-
-
 }
+chrome.runtime.onMessage.addListener(function (req, a, b) {
+    console.log("Message received in content script");
+    if (req.show == "send-name") {
+        chrome.runtime.sendMessage({
+            show: "got-name",
+            userName: "aryan29"
+        })
+    }
+})

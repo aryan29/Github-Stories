@@ -3,10 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;">
+    <title>Stories</title>
+<style>
+    @font-face {
+        font-family: 'MyWebFont';
+        src: url('HanaleiFill-Regular.ttf'); /* IE9 Compat Modes */
+    }
+    body{
+        background: linear-gradient(to bottom, #aaffa9, #11ffbd);
+        font-family:'MyWebFont';
+        background-repeat: no-repeat;
+        background-size: cover;
+        min-height: 100vh;
 
+    }
+    img{
+        height:200px;
+        width:200px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        object-fit: cover;
+        margin:auto;
+        padding:10px;
+
+    }
+    #app{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .button{
+        margin:10px;
+        height:46px;
+        width:240px;
+        background: linear-gradient(to right,rgb(223, 12, 12),80%,rgb(240, 173, 173));
+        color:white;
+        font-weight: 600;
+        text-align: center;
+        z-index:5;
+        font-size: 15px;
+        line-height:24px;
+        cursor:pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        
+        transition: box-shadow 0.2s linear;
+    }
+    .button:hover{
+        box-shadow: 0 10px 0 rgba(0, 0, 0, 0.2);
+    }
+</style>
 </head>
 <body>
-    <h3>OOPS!! open this page from "github.com" after logging in to your github account</h3>
+
+    <div id="app">
+        <h1>HELLO {{userName}}</h1>
+        <div v-for="(image,index) in stories">
+            <img :src="'http://127.0.0.1:5000/'+stories[index]">
+            <div class="button" @click="removeElement(index)">Delete Button</div>
+        </div>
+    </div>
+    <script src="axios.js"></script>
+    <script src="vue.js"></script>
+    <script src="stories.js"></script>
 </body>
 </html>
