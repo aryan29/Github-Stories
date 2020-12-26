@@ -27,11 +27,12 @@ def getFollowingList(name):
 @app.route('/upload', methods=['POST'])
 def upload():
     myfile = request.files['file']
-    username = "Aryan"
+    username = request.form['name']
+    print(username)
     if not os.path.isdir(os.path.join("static", username)):
         os.mkdir(os.path.join("static", username))
-    myfile.save(os.path.join(username, str(time.time())+".png"))
-    return "Hello World!"
+    myfile.save(os.path.join("static", username, str(time.time())+".png"))
+    return "Success"
 
 # Will get a list of users have to return stories for each user
 

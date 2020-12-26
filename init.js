@@ -167,6 +167,7 @@ $('#file1').on("change", () => {
         let formData = new FormData();
         let file = myfile[0].files[0];
         formData.append('file', file);
+        formData.append('name',username);
         //Send Ajax request to the server
         $.ajax({
             url: "http://127.0.0.1:5000/upload",
