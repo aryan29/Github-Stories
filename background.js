@@ -1,4 +1,6 @@
-let userName = ""
+let userName = "" //Stores username temp in memory
+
+//---------------------------Message passing---------------------------------------------------
 chrome.runtime.onMessage.addListener(function (req, sender, res) {
     console.log("Message Received here in background");
     if (req.show == "showStories") {
@@ -59,7 +61,12 @@ chrome.tabs.onUpdated.addListener((tabId, change, tab) => {
     }
 });
 
+//--------------------------------------------------------------------------------------
 
+
+
+
+//-------------------Disabling cors headers to github to enable showing any image---------------------
 var editHeaders = function (details) {
     for (var i = 0; i < details.responseHeaders.length; i++) {
         if (details.responseHeaders[i].name.toLowerCase() === 'content-security-policy') {
@@ -87,3 +94,4 @@ function disableHeaders(url) {
         );
     }
 }
+//----------------------------------------------------------------------------------------------------

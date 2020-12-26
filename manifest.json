@@ -7,8 +7,8 @@
     "content_scripts":[
       {
         "js":[
-            "font_awesome.js",
-            "jquery.js",
+            "js/font_awesome.js",
+            "js/jquery.js",
             "init.js"
         ],
         "matches":["*://github.com/*","https://api.github.com/*","http://127.0.0.1/*"]
@@ -23,7 +23,7 @@
       "scripts": ["background.js"],
       "persistent": true
     },
-
+    "web_accessible_resources":["images/*"],
     "permissions": [
       "activeTab",
       "tabs" ,

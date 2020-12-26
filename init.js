@@ -1,18 +1,81 @@
-//Adding CSS stylesheet
+//--------------------Adding CSS stylesheet-----------------------------------------------------------
 var css = `
 ::-webkit-scrollbar {display: none;    width: 0px;background: transparent; }
 @keyframes moveGradient {
     50% {
       background-position: 100% 50%;
-    }
-                  
+    }     
+}   
+#myAvatar{
+    height:50px;
+    width:50px;
+    border-radius:50px;
+    margin:10px 20px 10px 30px;
+    background-size:contain;
+    cursor:pointer;
+}  
+.av{
+    --border-width:3px;
+    --radius:50px;
+    display:flex;
+    cursor:pointer;
+    position:relative;
+    height:var(--radius);
+    width:var(--radius);
+    border-radius:var(--radius);
+    margin:10px 20px 10px 30px;
+    background-size:contain !important;
 }
-`,
-    head = document.head || document.getElementsByTagName('head')[0],
-    style = document.createElement('style');
-
+.inner-av{
+    position: absolute;
+    content: '';
+    top: calc(-1 * var(--border-width));
+    left: calc(-1 * var(--border-width));
+    z-index: -1;
+    width: calc(100% + var(--border-width) * 2);
+    height: calc(100% + var(--border-width) * 2);
+    background: linear-gradient(
+      60deg,
+      hsl(224, 85%, 66%),
+      hsl(269, 85%, 66%),
+      hsl(314, 85%, 66%),
+      hsl(359, 85%, 66%),
+      hsl(44, 85%, 66%),
+      hsl(89, 85%, 66%),
+      hsl(134, 85%, 66%),
+      hsl(179, 85%, 66%)
+    );
+    background-size: 300% 300%;
+    background-position: 0 50%;
+    border-radius: calc(2 * var(--radius));
+    animation: moveGradient 4s alternate infinite;
+}
+#stories{
+    background-color:rgb(6,9,15);
+    height:100px;
+    overflow-x:scroll;
+    position: relative;
+    z-index:0;
+    display:flex;
+}
+#moveLeft, #moveRight{
+    height: 80%;
+    width: 30px;
+    color: white;
+    background: black;
+    border: none;
+    margin: 0;
+}
+#closeIcon{
+    font-size:20px;
+    color:red;
+    margin-left:auto;
+    margin-right:10px;
+}
+`
+head = document.head || document.getElementsByTagName('head')[0];
+style = document.createElement('style');
 head.appendChild(style);
-
 style.setAttribute("type", 'text/css')
 if (style.styleSheet) {
     // This is required for IE8 and below.
@@ -20,42 +83,20 @@ if (style.styleSheet) {
 } else {
     style.appendChild(document.createTextNode(css));
 }
-///////////////////////////////
+//--------------------------------------------------------------------------------------------------
 
-//Self executing function
-var style = document.createElement('style');
-let userData = []
-// add the CSS as a string
-style.innerHTML = "::-webkit-scrollbar {display: none;    width: 0px;background: transparent; }";
-let userAvatars = {};
-let counter1 = 0;
-let counter2 = 0;
-// add it to the head
-document.getElementsByTagName('head')[0].appendChild(style);
-getFriends = () => {
-    username = $(".css-truncate-target.ml-1").first().text().trim();
-    console.log(username);
-    // $.ajax({
-    //     url: "https://api.github.com/users/" + username + "/following",
-    //     dataType: "json",
-    //     method: "GET",
-    //     data: {
-    //         authorization: "token e75064dead9a148752ea665e2676c32875866e39"
-    //     },
-    //     headers: {
-    //         authorization: "token e75064dead9a148752ea665e2676c32875866e39"
-    //     },
-    //     success: (res) => {
-    //         //renderResult(res);
-    //         getStoriesDataFromServer(res)
-    //     },
-    //     error: (...err) => {
-    //         console.log(err)
-    //     }
-    // })
+
+
+let userData = [] //Sotring data that came back from server
+let username = ""; //Storing username
+getFollowing = () => {
+    username = $(".css-truncate-target.ml-1").first().text().trim(); //Extracting user name from github.com
+
+    //Sending name to server to get following and more data
     getStoriesDataFromServer(username)
 }
 
+//-------------------------Sending data to server------------------------------------------------
 getStoriesDataFromServer = (name) => {
     $.ajax({
         type: "post",
@@ -63,7 +104,7 @@ getStoriesDataFromServer = (name) => {
         data: JSON.stringify({
             'name': name
         }),
-        contentType: 'application/json;charset=UTF-8',
+        contentType: 'application/json;charset=UTF-8', //Sendign in json format
         success: (res) => {
             //console.log(res);
             userData = res;
@@ -72,27 +113,25 @@ getStoriesDataFromServer = (name) => {
         error: (...err) => console.log(err)
     })
 }
+//--------------------------------------------------------------------------------
+
+
+//---------------------------------------------Render avatars on github-----------------------------
 renderResult = (li) => {
-    //Adding User avatar
-    //This avatar is clickable and adds story for this particular user
     let elem = document.createElement("div");
-    myAvatar = $('.avatar-user').attr("src");
-
-    console.log(myAvatar);
-    elem.innerHTML = `
-    <div id="myAvatar" style="
-    background:url(` + myAvatar + `);
-    height:50px;
-    width:50px;
-    border-radius:50px;
-    margin:10px 20px 10px 30px;
-    background-size:contain;
-    "></div>
-    `
+    elem.innerHTML =
+        `
+        <div id="myAvatar" style="
+        background:url(chrome-extension://ncgpaljlfimkdpmbpccgjemnjbfedaki/images/plus1.jpg);
+        background-position:center;
+        background-size: contain;
+        "></div>
+        `
+    //---------------------Event Listener for file upload --------------
     $(elem).on("click", () => {
-
         $(myfile).trigger("click");
     })
+    //------------------------------------------------------------------
     $('#stories').append(elem);
     //Adding all friends avatars
     for (let i = 0; i < li.length; i++) {
@@ -101,64 +140,25 @@ renderResult = (li) => {
         <div 
         class="av"
         style="
-        background:url(` + li[i]['avatar_url'] + `);
-        --border-width:3px;
-        --radius:50px;
-        display:flex;
-        position:relative;
-
-        height:var(--radius);
-        width:var(--radius);
-        border-radius:var(--radius);
-        margin:10px 20px 10px 30px;
-        background-size:contain;
-        ">
-        <div style="
-        position: absolute;
-        content: '';
-        top: calc(-1 * var(--border-width));
-        left: calc(-1 * var(--border-width));
-        z-index: -1;
-        width: calc(100% + var(--border-width) * 2);
-        height: calc(100% + var(--border-width) * 2);
-        background: linear-gradient(
-          60deg,
-          hsl(224, 85%, 66%),
-          hsl(269, 85%, 66%),
-          hsl(314, 85%, 66%),
-          hsl(359, 85%, 66%),
-          hsl(44, 85%, 66%),
-          hsl(89, 85%, 66%),
-          hsl(134, 85%, 66%),
-          hsl(179, 85%, 66%)
-        );
-        background-size: 300% 300%;
-        background-position: 0 50%;
-        border-radius: calc(2 * var(--radius));
-        animation: moveGradient 4s alternate infinite;
-
-        "></div></div>
+        background:url(` + li[i]['avatar_url'] + `);">
+        <div class="inner-av"></div></div>
         `
         $('#stories').append(elem);
     }
-
-
 }
+//-------------------------------------------------------------------------------------------------
+
+
+
 header = $(".js-header-wrapper");
-elem = `<div id="stories" style='
-background-color:rgb(6,9,15);
-height:100px;
-overflow-x:scroll;
-position: relative;
-z-index:0;
-display:flex;
-'>
+elem = `<div id="stories">
 <input type="file" id="file1" style="display:none" ">
 </div>`
 
 $(elem).insertAfter(header);
-li = getFriends()
+li = getFollowing()
 
+//------------------------------Stories uploading to server--------------------------------------------
 myfile = $('#file1');
 $('#file1').on("change", () => {
     if (myfile[0].files.length >= 1) {
@@ -179,6 +179,11 @@ $('#file1').on("change", () => {
         })
     }
 })
+//-----------------------------------------------------------------------------------
+
+
+
+//----------------------Adding some event listeners--------------------------------------
 $(document).on("click", '.av', function () {
     ind = $(this).parent().parent().children().index($(this).parent());
     console.log(ind - 2);
@@ -192,6 +197,11 @@ $(document).on('click', '#closeIcon', () => {
     console.log("I am being pressed");
     location.reload();
 })
+//------------------------------------------------------------------------------------------
+
+
+
+//----------------------Show story when avatar is clicked---------------------------------------
 showStories = (start, data) => {
     console.log("Coming to show stroies");
     oldBody = $('body').html();
@@ -217,11 +227,11 @@ showStories = (start, data) => {
     $(rightButton).append('<i class="fas fa-chevron-right"></i>');
     let currentTimeout = 0;
 
-    let wait = 5000;
+    let wait = 500000; //Wait Time for opening next story
     (function repeat(data, i, j, immediate) {
-        wait = (immediate == true) ? 0 : 5000;
+        newWait = (immediate == true) ? 0 : 500000;
         console.log("Before Loop coming", i, j);
-        //////////////////////////////////////////////////=>Origin Indexes
+        //------------------------------------Origin Indexes------------------------------------
         if (j < 0) {
             i -= 1;
             if (i >= 0) {
@@ -238,8 +248,7 @@ showStories = (start, data) => {
             i += 1;
             j = 0;
         }
-        //////////////////////////////////////////////////////////////////
-        console.log("After Loop coming", i, j);
+        //-------------------------------------------------------------------------------------------
         $("#moveLeft").on("click", () => {
             //Cancel the current timeout and go to next
             console.log("Key press current timeout", currentTimeout);
@@ -254,16 +263,17 @@ showStories = (start, data) => {
             repeat(data, i, j, true);
             return;
         });
-        //////////////////////////////////////////////////////////Terminating Conditions
+
+        //--------------------------------Terminating conditions-------------------------------------
         if (i >= data.length || i <= -1) {
             console.log(immediate);
             setTimeout(() => {
                 $('#closeIcon').click()
-            }, wait)
-            console.log("Lets end this", wait);
+            }, newWait)
+            console.log("Lets end this", newWait);
             return;
         }
-        //////////////////////////////////////////////////////////
+        //--------------------------------------------------------------------------------------------------
 
 
         currentTimeout = setTimeout(function () {
@@ -292,14 +302,12 @@ showStories = (start, data) => {
                 "align-items": "center"
 
             });
-            $(userProf).append('<div style="margin:auto;max-height:80%;margin-left:20px;margin-right:20px;width:40px;height:40px;border-radius:40px;background:url(' + data[i]['avatar_url'] + ');background-position:center;background-size:contain"></div>');
+            $(userProf).append('<div style="margin:auto;max-height:80%;margin-left:20px;margin-right:20px;width:40px;height:40px;border-radius:40px;background:url(' + data[i]['avatar_url'] + ');background-position:center;background-size:contain;background-repeat:no-repeat"></div>');
             $(userProf).append('<div><h3>' + name + '</h3></div>');
-            var closeIcon = $('<i id="closeIcon" class="fas fa-times-circle fa-5x" style="font-size:20px;color:red;margin-left:auto;margin-right:10px"></i>')
+            var closeIcon = $('<i id="closeIcon" class="fas fa-times-circle fa-5x"></i>')
             $(userProf).append(closeIcon);
             $(elem).html(userProf);
             $(elem).append(img);
-
-            //Adding image to elem
             $(img).css({
                 "background-image": "url(http://127.0.0.1:5000/" + data[i]['story'][j] + ")",
                 "background-position": "center",
@@ -307,27 +315,8 @@ showStories = (start, data) => {
                 "background-repeat": "no-repeat",
                 "width": "100%",
                 "height": "90%",
-                "margin-top": "15px"
+                "margin-top": "15px",
             });
-            $(leftButton).css({
-                "height": "80%",
-                "width": "30px",
-                "color": "white",
-                "background": "black",
-                "border": "none",
-                "margin": "0"
-            })
-            $(rightButton).css({
-                "height": "80%",
-                "width": "30px",
-                "color": "white",
-                "background": "black",
-                "border": "none",
-                "margin": "0"
-            })
-
-            // console.log(elem);
-
             $('body').empty();
             $('body').append(leftButton);
             $('body').append(elem);
@@ -335,15 +324,22 @@ showStories = (start, data) => {
 
             repeat(data, i, j + 1, false);
             console.log("Current Timeout", currentTimeout);
-        }, wait)
+        }, newWait)
     })(data, start, 0, true)
 }
+
+
+
+
+
+//------Listening chrome extension message for opening user stories from his github page--------------------
 chrome.runtime.onMessage.addListener(function (req, a, b) {
     console.log("Message received in content script");
     if (req.show == "send-name") {
         chrome.runtime.sendMessage({
             show: "got-name",
-            userName: "aryan29"
+            userName: username
         })
     }
 })
+//------------------------------------------------------------------------------------------------------------
