@@ -42,6 +42,12 @@ chrome.runtime.onMessage.addListener(function (req, sender, res) {
                 userName: userName
             });
         });
+    } else if (req.show == "icon-change") {
+        console.log("Icon change req received");
+        chrome.browserAction.setIcon({
+            path: "/images/logoa.png",
+            tabId: sender.tab.id
+        })
     }
 })
 

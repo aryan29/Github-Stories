@@ -19,13 +19,17 @@
 
     }
     img{
-        height:200px;
-        width:200px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        position: relative;
+        height: 50%;
+        width: 50%;
         object-fit: cover;
         margin:auto;
         padding:10px;
+        border-radius: 40px;
 
+    }
+    img:hover{
+        filter: grayscale(100%);
     }
     #app{
         display: flex;
@@ -33,7 +37,7 @@
         align-items: center;
     }
     .button{
-        margin:10px;
+        margin:20px 0 20px 0;
         height:46px;
         width:240px;
         background: linear-gradient(to right,rgb(223, 12, 12),80%,rgb(240, 173, 173));
@@ -54,13 +58,20 @@
     .button:hover{
         box-shadow: 0 10px 0 rgba(0, 0, 0, 0.2);
     }
+    .stories{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    }
 </style>
 </head>
 <body>
 
     <div id="app">
         <h1>HELLO {{userName}}</h1>
-        <div v-for="(image,index) in stories">
+        <div class="stories" v-for="(image,index) in stories">
             <img :src="'http://127.0.0.1:5000/'+stories[index]">
             <div class="button" @click="removeElement(index)">Delete Button</div>
         </div>

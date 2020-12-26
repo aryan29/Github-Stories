@@ -5,17 +5,17 @@ var vm = new Vue({
         stories: [],
     },
     mounted() {
-        //Adding event listener
-        // chrome.runtime.onMessage.addListener((req, a, b) => {
-        //     console.log("Message received");
-        //     if (req.show == "send-name") {
-        //         console.log(req.userName)
-        //         this.userName = req.userName
-        //         this.getStories();
-        //     }
+        // Adding event listener
+        chrome.runtime.onMessage.addListener((req, a, b) => {
+            console.log("Message received");
+            if (req.show == "send-name") {
+                console.log(req.userName)
+                this.userName = req.userName
+                this.getStories();
+            }
 
-        // })
-        this.getStories();
+        })
+        //this.getStories();
         this.sendMessage();
 
     },

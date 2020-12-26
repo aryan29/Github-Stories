@@ -11,12 +11,18 @@
             "js/jquery.js",
             "init.js"
         ],
-        "matches":["*://github.com/*","https://api.github.com/*","http://127.0.0.1/*"]
+        "matches":["https://github.com/","https://api.github.com/*","http://127.0.0.1/*"]
       }
     ],
     "browser_action": {
       "default_popup": "popup.html",
-      "default_title": "Manage Stories"
+      "default_title": "Manage Stories",
+      "default_icon":"images/logo.png",
+      "icons":{
+        "16":"images/logo.png",
+        "48":"images/logo.png",
+        "128":"images/logo.png"
+      }
     },
     "options_page":"options.html",
     "background": {

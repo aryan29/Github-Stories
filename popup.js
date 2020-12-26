@@ -1,3 +1,19 @@
+document.addEventListener("DOMContentLoaded", function () {
+    chrome.tabs.query({
+        active: true,
+        currentWindow: true
+    }, function (tabs) {
+        console.log(tabs[0].url)
+        // Note: this requires "activeTab" permission to access the URL
+        if (tabs[0].url == "https://github.com/") {
+            document.getElementById("mylist").style.display = "block";
+            document.getElementById("msg").style.display = "none";
+        } else {
+            document.getElementById("mylist").style.display = "none";
+            document.getElementById("msg").style.display = "block";
+        }
+    });
+});
 elem1 = document.getElementById("show-stories")
 elem2 = document.getElementById("show-settings")
 elem3 = document.getElementById("take-screenshot")
