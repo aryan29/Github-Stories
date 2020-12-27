@@ -43,16 +43,7 @@ var vm = new Vue({
         },
         uploadImage() {
             elem = document.getElementById("preview")
-            domtoimage.toJpeg(elem, {
-                height: 400,
-                width: 1200,
-                style: {
-                    "width": "600px",
-                    "margin": "auto",
-                    "height": "400px",
-                    "text-align": "center"
-                }
-            }).then(function (url) {
+            domtoimage.toJpeg(elem).then(function (url) {
                 chrome.storage.sync.get("github", (data) => {
                     let username = data.github;
                     let formData = new FormData();
@@ -81,24 +72,11 @@ var vm = new Vue({
         },
         downloadImage() {
             elem = document.getElementById("preview")
-            domtoimage.toJpeg(elem, {
-                height: 400,
-                width: 1500,
-                style: {
-                    "width": "600px",
-                    "margin": "auto",
-                    "height": "400px",
-                    "text-align": "center"
-                }
-            }).then(function (dataUrl) {
+            domtoimage.toJpeg(elem).then(function (dataUrl) {
                 var link = document.createElement('a');
-                var img = new Image()
-                img.src = dataUrl;
-                document.body.appendChild(img);
-                // link.download = 'my-image-name.jpeg';
-                // link.href = dataUrl;
-                // link.click();
-
+                link.download = 'my-image-name.jpeg';
+                link.href = dataUrl;
+                link.click();
             });
         }
     }

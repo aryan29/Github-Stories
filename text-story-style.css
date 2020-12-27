@@ -22,19 +22,30 @@
     font-family: 'font6';
     src: url('fonts/NovaFlat-Regular.ttf'); /* IE9 Compat Modes */
 }
+div{
+    margin:10px;
+}
+textarea{
+    width:300px;
+    height:100px;
+}
 #app{
     margin: auto;
     text-align: center;
 }
+#preview-wrap{
+    margin:auto;
+    display:flex;
+    justify-content: center;
+}
 #preview{
     width:600px;
-    margin:auto;
     height:400px;
+    display:flex;
+    justify-content: center;
     text-align:center;
     border-color: black;
     border-style: double;
-    display:flex;
-    justify-content: center;
     align-items: center;
     background-size:cover !important;
     background-position: center !important;

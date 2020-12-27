@@ -99,11 +99,7 @@ if (style.styleSheet) {
 } else {
     style.appendChild(document.createTextNode(css));
 }
-link = document.createElement('link');
-link.rel = 'stylesheet';
-link.type = 'text/css';
-link.href = 'bootstrap.css';
-head.appendChild(link)
+
 //--------------------------------------------------------------------------------------------------
 
 
@@ -112,6 +108,11 @@ let userData = [] //Sotring data that came back from server
 let username = ""; //Storing username
 getFollowing = () => {
     username = $(".css-truncate-target.ml-1").first().text().trim(); //Extracting user name from github.com
+    if (typeof username == "undefined" || username == "") {
+        console.log("Coming inside undefined");
+        username = $('.d-block .css-truncate-target').first().text().trim();
+        console.log(username)
+    }
     chrome.storage.sync.set({
         "github": username
     });

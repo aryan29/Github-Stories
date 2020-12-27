@@ -38,9 +38,11 @@
             </div>
         </div>
         <h5>Preview</h5>
+        <div id="preview-wrap">
         <div id="preview" :style="{'background':'url('+bgSelected+')'}">
             <div :style="{ 'font-family':fontSelected,'color':colorSelected}" id="textInside">{{text}}</div>
         </div>
+    </div>
         <div style="display: flex;
         justify-content: center;">
         <div class="button modify" @click="uploadImage()">UPLOAD STORY</div>

@@ -123,6 +123,7 @@ var editHeaders = function (details) {
 };
 
 function disableHeaders(url) {
+    console.log("Coming inside disabling headers");
     chrome.browsingData.remove({}, {
         serviceWorkers: true
     }, function () {});
