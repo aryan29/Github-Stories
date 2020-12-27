@@ -177,7 +177,7 @@
                 $(rightButton).append('<i class="fas fa-chevron-right"></i>');
                 let currentTimeout=0;
 
-                let oldWait=500000;
+                let oldWait=5000000;
                 (function repeat(data,i,j,immediate){
                     wait=(immediate==true)?0:oldWait;
                     console.log("Before Loop coming",i,j);
@@ -270,7 +270,7 @@
                     $(userProf).append('<div><h3>aryan29</h3></div>');
                     var closeIcon=$('<i id="closeIcon" class="fas fa-times-circle fa-5x" style="font-size:20px;color:red;margin-left:auto;margin-right:10px"></i>')
                     $(userProf).append(closeIcon);
-                    $(elem).append(userProf);
+                    //$(elem).append(userProf);
                     $(elem).append(progressBar);//Progress Bar
                     let percent=0;
                     $(elem).append(img);
@@ -309,6 +309,7 @@
                    // console.log(elem);
                   
                     $('body').empty();
+                    $('body').append(userProf);
                     $('body').append(leftButton);
                     $('body').append(elem);
                     $('body').append(rightButton);
