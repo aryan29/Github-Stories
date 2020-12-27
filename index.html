@@ -1,6 +1,7 @@
 <html>
     <head>
-        <script src="font_awesome.js"></script>
+        <script src="js/font_awesome.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
         <style>
             .av{
                 --border-width: 3px;
@@ -45,6 +46,7 @@
                   }
                                 
             }
+
         </style>
     </head>
 
@@ -90,9 +92,8 @@
         </form>
         </div>
       
-        <script src="jquery.js"></script>
-
-
+        <script src="js/jquery.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 
         <script>
             timeoutId=0;
@@ -119,27 +120,30 @@
                 {
                     "name":"aryan29",
                     "story":[
-                    "https://image.shutterstock.com/image-photo/home-office-dress-code-girl-600w-1719984745.jpg",
+                    "static/aryan29/1609011801.335948.png",
+                    "static/aryan29/1609050231.1314096.png"
                     
                     ]
                 },
                 {
-                    "name":"img",
+                    "name":"IshaanG",
                     "story":[
-                    "https://image.shutterstock.com/image-photo/black-steel-large-anchor-chain-600w-1081708619.jpg",
-                    "https://image.shutterstock.com/image-photo/home-office-dress-code-girl-600w-1719984745.jpg",
+                    "static/IshaanG/1608671521.3940706.png",
+                    "static/IshaanG/1608671525.9942636.png",
                     ]
                 },
                 {
-                    "name":"hello",
+                    "name":"karngyan",
                     "story":[
-                    "https://image.shutterstock.com/image-photo/home-office-dress-code-girl-600w-1719984745.jpg",
+                    "static/karngyan/two-people-coding-code-program-programming-developer-computer-web-development-coder-working-design-software-desk-office-139990440.jpg",
                     ]
                 },
                 {
-                    "name":"world",
+                    "name":"rpuneet",
                     "story":[
-                    "https://image.shutterstock.com/image-photo/home-office-dress-code-girl-600w-1719984745.jpg",
+                    "static/rpuneet/pexels-hitesh-choudhary-879109.jpg",
+                    "static/rpuneet/photo-1534665482403-a909d0d97c67.jpeg"
+
                     ]
                 }
 
@@ -155,10 +159,12 @@
                     "height": "100vh",
                     "margin": "0",
                     "justify-content": "center",
-                    "background": "rgb(56,56,56)"
+                    "background": "rgb(56,56,56)",
+                    "align-items":"center"
                
                 })
                 console.log("Coming to show stories");
+                let timerIdCopy=0
                 let name=data[0]['name']
                 let elem=document.createElement("div");
                 let userProf=document.createElement('div');
@@ -171,9 +177,9 @@
                 $(rightButton).append('<i class="fas fa-chevron-right"></i>');
                 let currentTimeout=0;
 
-                let wait=250000;
+                let oldWait=500000;
                 (function repeat(data,i,j,immediate){
-                    wait=(immediate==true)?0:250000;
+                    wait=(immediate==true)?0:oldWait;
                     console.log("Before Loop coming",i,j);
                     //////////////////////////////////////////////////=>Origin Indexes
                     if(j<0)
@@ -201,6 +207,7 @@
                         //Cancel the current timeout and go to next
                         console.log("Key press current timeout",currentTimeout);
                         clearTimeout(currentTimeout);
+                        clearInterval(timerIdCopy);
                        repeat(data,i,j-2,true);
                        return;
                     });
@@ -208,6 +215,7 @@
                         //Cancel the current timeout and go to next
                         console.log("Key press current timeout",currentTimeout);
                         clearTimeout(currentTimeout);
+                        clearInterval(timerIdCopy);
                        repeat(data,i,j,true);
                        return;
                     });
@@ -216,7 +224,7 @@
                    {
                        console.log(immediate);
                        setTimeout(()=>{$('#closeIcon').click()},wait)
-                       console.log("Lets end this",wait);
+                       console.log("Lets end this",oldWait/20);
                        return;
                    }
                //////////////////////////////////////////////////////////
@@ -236,7 +244,7 @@
                         "background":"black",
                     })
                     $(userProf).css({
-                        "height": "5%",
+                        "height": "7%",
                         "width": "100%",
                         "top": 0,
                         "left": 0,
@@ -248,33 +256,53 @@
                         "align-items": "center"
 
                     });
+                    /////////////////////////////progress bar
+                    progressBar=document.createElement("div");
+                    $(progressBar).addClass("progress-bar progress-bar-striped bg-info")
+                    $(progressBar).css({
+                        "width":"0%",
+                        "height":"1%",
+                        "position":"relative",
+
+                    })
+                    /////////////////////////////////////////
                     $(userProf).append('<div style="margin:auto;max-height:80%;margin-left:20px;margin-right:20px;width:40px;height:40px;border-radius:40px;background:black;background-position:center;background-size:cover"></div>');
                     $(userProf).append('<div><h3>aryan29</h3></div>');
                     var closeIcon=$('<i id="closeIcon" class="fas fa-times-circle fa-5x" style="font-size:20px;color:red;margin-left:auto;margin-right:10px"></i>')
                     $(userProf).append(closeIcon);
-                    $(elem).html(userProf);
+                    $(elem).append(userProf);
+                    $(elem).append(progressBar);//Progress Bar
+                    let percent=0;
                     $(elem).append(img);
-
+                   let timerId=setInterval(()=>{
+                      
+                        percent+=5;
+                        console.log(percent);
+                        $(progressBar).css('width',percent+"%")
+                        if(percent>=100)
+                        clearInterval(timerId);
+                    },oldWait/20.0)
+                    timerIdCopy=timerId;
                     //Adding image to elem
                     $(img).css({
-                        "background-image": "url(http://127.0.0.1:5500/" + data[i]['stories'][j] + ")",
+                        "background-image":"url(http://127.0.0.1:5000/"+data[i]['story'][j]+")",
                         "background-position": "center",
                         "background-size": "contain",
                         "background-repeat": "no-repeat",
                         "width": "100%",
-                        "height": "90%",
+                        "height": "87%",
                         "margin-top": "15px"
                     });
                     $(leftButton).css({
                         "height":"80%",
                         "width":"30px",
-                        "color":"black",
+                        "color":"white",
                         "margin":"0"
                     })
                     $(rightButton).css({
                         "height":"80%",
                         "width":"30px",
-                        "color":"black",
+                        "color":"white",
                         "margin":"0"
                     })  
                     
