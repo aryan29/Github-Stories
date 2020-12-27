@@ -51,10 +51,10 @@ var vm = new Vue({
             }).then(
                 (res) => {
                     console.log(res)
-                    if (res.data == "Success")
+                    if (res.data == "Success") {
                         console.log("Success")
-                    // this.$delete(this.stories, index);
-                    else
+                        this.$delete(this.stories, index);
+                    } else
                         console.log("Some error occcured on server side")
                 },
                 (err) => console.log(err)

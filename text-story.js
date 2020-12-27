@@ -41,13 +41,64 @@ var vm = new Vue({
                 this.text = this.text.substring(0, this.maxLengthInCars);
             }
         },
+        uploadImage() {
+            elem = document.getElementById("preview")
+            domtoimage.toJpeg(elem, {
+                height: 400,
+                width: 1200,
+                style: {
+                    "width": "600px",
+                    "margin": "auto",
+                    "height": "400px",
+                    "text-align": "center"
+                }
+            }).then(function (url) {
+                chrome.storage.sync.get("github", (data) => {
+                    let username = data.github;
+                    let formData = new FormData();
+                    formData.append("file", url)
+                    formData.append("name", username)
+                    $.ajax({
+                        url: "http://127.0.0.1:5000/upload",
+                        type: "post",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: (res) => {
+                            console.log(res);
+                            if (res == "Success") {
+                                console.log("Message sent");
+                                //Send message to popup informing about upload done
+                                chrome.runtime.sendMessage({
+                                    show: "uploaded",
+                                })
+                            }
+                        },
+                        error: (...err) => console.log(err)
+                    })
+                })
+            });
+        },
         downloadImage() {
             elem = document.getElementById("preview")
-            domtoimage.toJpeg(elem).then(function (dataUrl) {
+            domtoimage.toJpeg(elem, {
+                height: 400,
+                width: 1500,
+                style: {
+                    "width": "600px",
+                    "margin": "auto",
+                    "height": "400px",
+                    "text-align": "center"
+                }
+            }).then(function (dataUrl) {
                 var link = document.createElement('a');
-                link.download = 'my-image-name.jpeg';
-                link.href = dataUrl;
-                link.click();
+                var img = new Image()
+                img.src = dataUrl;
+                document.body.appendChild(img);
+                // link.download = 'my-image-name.jpeg';
+                // link.href = dataUrl;
+                // link.click();
+
             });
         }
     }
