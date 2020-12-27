@@ -91,6 +91,9 @@ let userData = [] //Sotring data that came back from server
 let username = ""; //Storing username
 getFollowing = () => {
     username = $(".css-truncate-target.ml-1").first().text().trim(); //Extracting user name from github.com
+    chrome.storage.sync.set({
+        "github": username
+    });
 
     //Sending name to server to get following and more data
     getStoriesDataFromServer(username)
@@ -291,7 +294,7 @@ showStories = (start, data) => {
                 "background": "black",
             })
             $(userProf).css({
-                "height": "5%",
+                "height": "7%",
                 "width": "100%",
                 "top": 0,
                 "left": 0,
@@ -334,15 +337,15 @@ showStories = (start, data) => {
 
 
 //------Listening chrome extension message for opening user stories from his github page--------------------
-chrome.runtime.onMessage.addListener(function (req, a, b) {
-    console.log("Message received in content script");
-    if (req.show == "send-name") {
-        chrome.runtime.sendMessage({
-            show: "got-name",
-            userName: username
-        })
-    }
-})
+// chrome.runtime.onMessage.addListener(function (req, a, b) {
+//     console.log("Message received in content script");
+//     if (req.show == "send-name") {
+//         chrome.runtime.sendMessage({
+//             show: "got-name",
+//             userName: username
+//         })
+//     }
+// })
 chrome.runtime.sendMessage({
     show: "icon-change"
 })

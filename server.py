@@ -4,6 +4,7 @@ import os
 import time
 import requests
 import bs4
+import base64
 app = Flask(__name__, static_url_path='/static')
 CORS(app)
 
@@ -26,12 +27,18 @@ def getFollowingList(name):
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    myfile = request.files['file']
-    username = request.form['name']
-    print(username)
+    myfile = request.files.get('file', request.form.get('file'))
+    username = request.form.get('name', 'trash')
     if not os.path.isdir(os.path.join("static", username)):
         os.mkdir(os.path.join("static", username))
-    myfile.save(os.path.join("static", username, str(time.time())+".png"))
+    #################bas64############################
+    if(type(myfile) == type("string")):
+        myfile = myfile.replace("data:image/jpeg;base64,", '')
+        with open(os.path.join("static", username, str(time.time())+".png"), "wb") as fh:
+            fh.write(base64.b64decode(myfile))
+    # ####################################################33
+    else:
+        myfile.save(os.path.join("static", username, str(time.time())+".png"))
     return "Success"
 
 # Will get a list of users have to return stories for each user
