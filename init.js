@@ -72,6 +72,22 @@ var css = `
     margin-left:auto;
     margin-right:10px;
 }
+.my-progress-bar{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #0d6efd;
+    transition: width .6s ease;
+    background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+    background-size: 1rem 1rem;
+    width: 0%;
+    height: 1px;
+    position: relative;
+}
 `
 head = document.head || document.getElementsByTagName('head')[0];
 style = document.createElement('style');
@@ -83,6 +99,11 @@ if (style.styleSheet) {
 } else {
     style.appendChild(document.createTextNode(css));
 }
+link = document.createElement('link');
+link.rel = 'stylesheet';
+link.type = 'text/css';
+link.href = 'bootstrap.css';
+head.appendChild(link)
 //--------------------------------------------------------------------------------------------------
 
 
@@ -215,10 +236,13 @@ showStories = (start, data) => {
         "margin": "0",
         "justify-content": "center",
         "background": "rgb(56,56,56)",
-        "align-items": "center"
+        "align-items": "center",
+        "flex-wrap": "wrap",
+        "align-content": "center"
 
     })
     console.log("Coming to show stories");
+    let timerIdCopy = 0
     let name = data[0]['name']
     let elem = document.createElement("div");
     let userProf = document.createElement('div');
@@ -231,9 +255,9 @@ showStories = (start, data) => {
     $(rightButton).append('<i class="fas fa-chevron-right"></i>');
     let currentTimeout = 0;
 
-    let wait = 500000; //Wait Time for opening next story
+    let wait = 5000; //Wait Time for opening next story
     (function repeat(data, i, j, immediate) {
-        newWait = (immediate == true) ? 0 : 500000;
+        newWait = (immediate == true) ? 0 : wait;
         console.log("Before Loop coming", i, j);
         //------------------------------------Origin Indexes------------------------------------
         if (j < 0) {
@@ -257,6 +281,7 @@ showStories = (start, data) => {
             //Cancel the current timeout and go to next
             console.log("Key press current timeout", currentTimeout);
             clearTimeout(currentTimeout);
+            clearInterval(timerIdCopy);
             repeat(data, i, j - 2, true);
             return;
         });
@@ -264,6 +289,7 @@ showStories = (start, data) => {
             //Cancel the current timeout and go to next
             console.log("Key press current timeout", currentTimeout);
             clearTimeout(currentTimeout);
+            clearInterval(timerIdCopy);
             repeat(data, i, j, true);
             return;
         });
@@ -271,6 +297,7 @@ showStories = (start, data) => {
         //--------------------------------Terminating conditions-------------------------------------
         if (i >= data.length || i <= -1) {
             console.log(immediate);
+
             setTimeout(() => {
                 $('#closeIcon').click()
             }, newWait)
@@ -295,22 +322,39 @@ showStories = (start, data) => {
             })
             $(userProf).css({
                 "height": "7%",
-                "width": "100%",
+                "width": "calc(80% + 60px)",
                 "top": 0,
                 "left": 0,
+                "margin": "auto",
                 "position": "relative",
                 "background-color": "rgb(26,26,26)",
                 "display": "flex",
                 "justify-content": "flex-start",
                 "color": "white",
-                "align-items": "center"
+                "align-items": "center",
+                "flex-flow": "wrap"
 
             });
+            /////////////Progress Bar
+            progressBar = document.createElement("div");
+            $(progressBar).addClass("my-progress-bar")
+            let percent = 0;
+            let timerId = setInterval(() => {
+
+                percent += 5;
+                console.log(percent);
+                $(progressBar).css('width', percent + "%")
+                if (percent >= 100)
+                    clearInterval(timerId);
+            }, wait / 20.0)
+            timerIdCopy = timerId;
+            ////////////////
             $(userProf).append('<div style="margin:auto;max-height:80%;margin-left:20px;margin-right:20px;width:40px;height:40px;border-radius:40px;background:url(' + data[i]['avatar_url'] + ');background-position:center;background-size:contain;background-repeat:no-repeat"></div>');
             $(userProf).append('<div><h3>' + name + '</h3></div>');
             var closeIcon = $('<i id="closeIcon" class="fas fa-times-circle fa-5x"></i>')
             $(userProf).append(closeIcon);
-            $(elem).html(userProf);
+            $(userProf).append('<div style="flex-basis:100%;height:0"></div>')
+            $(userProf).append(progressBar); //Progress Bar
             $(elem).append(img);
             $(img).css({
                 "background-image": "url(http://127.0.0.1:5000/" + data[i]['story'][j] + ")",
@@ -322,6 +366,10 @@ showStories = (start, data) => {
                 "margin-top": "15px",
             });
             $('body').empty();
+            let nowelem = document.createElement("div");
+            $(nowelem).css("flex-basis", "100%")
+            $(nowelem).append(userProf)
+            $('body').append(nowelem);
             $('body').append(leftButton);
             $('body').append(elem);
             $('body').append(rightButton);
