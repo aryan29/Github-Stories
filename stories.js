@@ -35,7 +35,7 @@ var vm = new Vue({
         getStories() {
             console.log("Coming to get stories");
             console.log(this.userName);
-            axios.post("http://127.0.0.1:5000/individualUser", {
+            axios.post("https://githubstories.herokuapp.com/individualUser", {
                 name: this.userName
             }).then((res) => {
                 console.log(res.data);
@@ -44,7 +44,7 @@ var vm = new Vue({
         },
         removeElement(index) {
             //Make a delete request to sever if successfull delete it from here too
-            axios.post('http://127.0.0.1:5000/deleteStory', {
+            axios.post('https://githubstories.herokuapp.com/deleteStory', {
                 name: this.userName,
                 index: index,
 

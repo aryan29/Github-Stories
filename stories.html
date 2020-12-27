@@ -72,7 +72,7 @@
     <div id="app">
         <h1>HELLO {{userName}}</h1>
         <div class="stories" v-for="(image,index) in stories">
-            <img :src="'http://127.0.0.1:5000/'+stories[index]">
+            <img :src="'https://githubstories.herokuapp.com/'+stories[index]">
             <div class="button" @click="removeElement(index)">Delete Button</div>
         </div>
     </div>

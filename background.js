@@ -36,7 +36,7 @@ chrome.runtime.onMessage.addListener(function (req, sender, res) {
                 formData.append("file", url)
                 formData.append("name", username)
                 $.ajax({
-                    url: "http://127.0.0.1:5000/upload",
+                    url: "https://githubstories.herokuapp.com/upload",
                     type: "post",
                     data: formData,
                     processData: false,

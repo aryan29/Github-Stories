@@ -125,7 +125,7 @@ getFollowing = () => {
 getStoriesDataFromServer = (name) => {
     $.ajax({
         type: "post",
-        url: "http://127.0.0.1:5000/getImages",
+        url: "https://githubstories.herokuapp.com/getImages",
         data: JSON.stringify({
             'name': name
         }),
@@ -195,7 +195,7 @@ $('#file1').on("change", () => {
         formData.append('name', username);
         //Send Ajax request to the server
         $.ajax({
-            url: "http://127.0.0.1:5000/upload",
+            url: "https://githubstories.herokuapp.com/upload",
             type: "post",
             data: formData,
             processData: false,
@@ -358,7 +358,7 @@ showStories = (start, data) => {
             $(userProf).append(progressBar); //Progress Bar
             $(elem).append(img);
             $(img).css({
-                "background-image": "url(http://127.0.0.1:5000/" + data[i]['story'][j] + ")",
+                "background-image": "url(https://githubstories.herokuapp.com/" + data[i]['story'][j] + ")",
                 "background-position": "center",
                 "background-size": "contain",
                 "background-repeat": "no-repeat",
