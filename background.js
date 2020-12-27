@@ -19,9 +19,9 @@ chrome.runtime.onMessage.addListener(function (req, sender, res) {
         chrome.tabs.create({
             url: chrome.runtime.getURL("stories.html")
         })
-    } else if (req.show == "settings") {
+    } else if (req.show == "aboutUs") {
         chrome.tabs.create({
-            url: chrome.runtime.getURL("settings.html")
+            url: chrome.runtime.getURL("aboutUs.html")
         })
     } else if (req.show == "screenshot") {
         chrome.tabs.captureVisibleTab((url) => {

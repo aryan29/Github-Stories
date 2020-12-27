@@ -349,4 +349,5 @@ showStories = (start, data) => {
 chrome.runtime.sendMessage({
     show: "icon-change"
 })
+//chrome.storage.sync.set({"oldPage":document.innerHTML});
 //------------------------------------------------------------------------------------------------------------

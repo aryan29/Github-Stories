@@ -15,7 +15,7 @@
 //     });
 // });
 elem1 = document.getElementById("show-stories")
-elem2 = document.getElementById("show-settings")
+elem2 = document.getElementById("show-aboutUs")
 elem3 = document.getElementById("take-screenshot")
 elem1.addEventListener("click", () => {
     console.log("Show stories message send from popup");
@@ -25,7 +25,7 @@ elem1.addEventListener("click", () => {
 })
 elem2.addEventListener("click", () => {
     chrome.runtime.sendMessage({
-        show: "settings"
+        show: "aboutUs"
     })
 })
 elem3.addEventListener("click", () => {
