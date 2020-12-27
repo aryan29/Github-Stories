@@ -160,7 +160,9 @@
                     "margin": "0",
                     "justify-content": "center",
                     "background": "rgb(56,56,56)",
-                    "align-items":"center"
+                    "align-items":"center",
+                    "flex-wrap":"wrap",
+                    "align-content":"center"
                
                 })
                 console.log("Coming to show stories");
@@ -177,7 +179,7 @@
                 $(rightButton).append('<i class="fas fa-chevron-right"></i>');
                 let currentTimeout=0;
 
-                let oldWait=5000000;
+                let oldWait=5000;
                 (function repeat(data,i,j,immediate){
                     wait=(immediate==true)?0:oldWait;
                     console.log("Before Loop coming",i,j);
@@ -245,15 +247,17 @@
                     })
                     $(userProf).css({
                         "height": "7%",
-                        "width": "100%",
+                        "width": "calc(80% + 60px)",
                         "top": 0,
                         "left": 0,
+                        "margin":"auto",
                         "position": "relative",
                         "background-color": "rgb(26,26,26)",
                         "display": "flex",
                         "justify-content": "flex-start",
                         "color": "white",
-                        "align-items": "center"
+                        "align-items": "center",
+                        "flex-flow":"wrap"
 
                     });
                     /////////////////////////////progress bar
@@ -271,7 +275,8 @@
                     var closeIcon=$('<i id="closeIcon" class="fas fa-times-circle fa-5x" style="font-size:20px;color:red;margin-left:auto;margin-right:10px"></i>')
                     $(userProf).append(closeIcon);
                     //$(elem).append(userProf);
-                    $(elem).append(progressBar);//Progress Bar
+                    $(userProf).append('<div style="flex-basis:100%;height:0"></div>')
+                    $(userProf).append(progressBar);//Progress Bar
                     let percent=0;
                     $(elem).append(img);
                    let timerId=setInterval(()=>{
@@ -309,7 +314,11 @@
                    // console.log(elem);
                   
                     $('body').empty();
-                    $('body').append(userProf);
+                    let nowelem=document.createElement("div");
+                    $(nowelem).css("flex-basis","100%")
+                    $(nowelem).append(userProf)
+                
+                    $('body').append(nowelem);
                     $('body').append(leftButton);
                     $('body').append(elem);
                     $('body').append(rightButton);
