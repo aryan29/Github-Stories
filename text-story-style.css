@@ -1,0 +1,77 @@
+@font-face {
+    font-family: 'font1';
+    src: url('fonts/HanaleiFill-Regular.ttf'); /* IE9 Compat Modes */
+}
+@font-face {
+    font-family: 'font2';
+    src: url('fonts/Audiowide-Regular.ttf'); /* IE9 Compat Modes */
+}
+@font-face {
+    font-family: 'font3';
+    src: url('fonts/DancingScript-VariableFont_wght.ttf'); /* IE9 Compat Modes */
+}
+@font-face {
+    font-family: 'font4';
+    src: url('fonts/Langar-Regular.ttf'); /* IE9 Compat Modes */
+}
+@font-face {
+    font-family: 'font5';
+    src: url('fonts/Lobster-Regular.ttf'); /* IE9 Compat Modes */
+}
+@font-face {
+    font-family: 'font6';
+    src: url('fonts/NovaFlat-Regular.ttf'); /* IE9 Compat Modes */
+}
+#app{
+    margin: auto;
+    text-align: center;
+}
+#preview{
+    width:600px;
+    margin:auto;
+    height:400px;
+    text-align:center;
+    border-color: black;
+    border-style: double;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-size:cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+#textInside{
+    width: 80%;
+    height: 80%;
+    font-size: 25px;
+    position: relative;
+    overflow-wrap: break-word;
+    white-space: break-spaces;
+    overflow: hidden;
+    padding-top: 60px;
+}
+.button{
+    margin:20px 0 20px 0;
+    height:46px;
+    width:240px;
+    background: linear-gradient(to right,rgb(223, 12, 12),80%,rgb(240, 173, 173));
+    color:white;
+    font-weight: 600;
+    text-align: center;
+    z-index:5;
+    font-size: 15px;
+    line-height:24px;
+    cursor:pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    
+    transition: box-shadow 0.2s linear;
+}
+.button:hover{
+    box-shadow: 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+.modify{
+    margin:20px;
+}

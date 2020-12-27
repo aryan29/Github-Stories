@@ -19,6 +19,11 @@ chrome.runtime.onMessage.addListener(function (req, sender, res) {
         chrome.tabs.create({
             url: chrome.runtime.getURL("stories.html")
         })
+    } else if (req.show == "text-story") {
+
+        chrome.tabs.create({
+            url: chrome.runtime.getURL("text-story.html")
+        })
     } else if (req.show == "aboutUs") {
         chrome.tabs.create({
             url: chrome.runtime.getURL("aboutUs.html")
