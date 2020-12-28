@@ -31,10 +31,11 @@ def upload():
     username = request.form.get('name', 'trash')
     if not os.path.isdir(os.path.join("static", username)):
         os.mkdir(os.path.join("static", username))
-    #################bas64############################
-    if(type(myfile) == type("string")):
+    # ################bas64############################
+    if(isinstance(myfile, str)):
         myfile = myfile.replace("data:image/jpeg;base64,", '')
-        with open(os.path.join("static", username, str(time.time())+".png"), "wb") as fh:
+        with open(os.path.join("static", username,
+                               str(time.time())+".png"), "wb") as fh:
             fh.write(base64.b64decode(myfile))
     # ####################################################33
     else:
@@ -82,7 +83,8 @@ def deleteStory():
         print(li[index])
         os.remove(os.path.join('static', name, li[index]))
         return "Success"
-    except:
+    except Exception as e:
+        print(e)
         return "Failed"
     # Delete that index story from server
 
@@ -93,7 +95,8 @@ def getStory(name):
     try:
         li = os.listdir(os.path.join("static", name))
         return [f"static/{name}/{x}" for x in li]
-    except:
+    except Exception as e:
+        print(e)
         return []
     # Return all images in this directory
 
