@@ -8,6 +8,7 @@
       {
         "js":[
             "js/font_awesome.js",
+            "js/sweet_alert.js",
             "js/jquery.js",
             "init.js"
         ],

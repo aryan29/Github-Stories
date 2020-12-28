@@ -22,9 +22,9 @@
     font-family: 'font6';
     src: url('fonts/NovaFlat-Regular.ttf'); /* IE9 Compat Modes */
 }
-div{
+/* div{
     margin:10px;
-}
+} */
 textarea{
     width:300px;
     height:100px;

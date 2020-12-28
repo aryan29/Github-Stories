@@ -200,7 +200,16 @@ $('#file1').on("change", () => {
             data: formData,
             processData: false,
             contentType: false,
-            success: (res) => console.log(res),
+            success: function(res){
+                console.log(res);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Story Uploaded',
+                    text: username,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            },
             error: (...err) => console.log(err)
         })
     }

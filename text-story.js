@@ -58,10 +58,12 @@ var vm = new Vue({
                         success: (res) => {
                             console.log(res);
                             if (res == "Success") {
-                                console.log("Message sent");
-                                //Send message to popup informing about upload done
-                                chrome.runtime.sendMessage({
-                                    show: "uploaded",
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Story Uploaded',
+                                    text: username,
+                                    showConfirmButton: false,
+                                    timer: 2000
                                 })
                             }
                         },
