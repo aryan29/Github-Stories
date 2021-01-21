@@ -4,18 +4,6 @@ let userName = "" //Stores username temp in memory
 chrome.runtime.onMessage.addListener(function (req, sender, res) {
     console.log("Message Received here in background");
     if (req.show == "showStories") {
-        // userName = "";
-        // chrome.tabs.query({
-        //     active: true,
-        //     currentWindow: true
-        // }, function (tabs) {
-        //     chrome.tabs.sendMessage(tabs[0].id, {
-        //         show: "send-name"
-        //     });
-        // });
-        // console.log("Message send to get name of the person");
-
-
         chrome.tabs.create({
             url: chrome.runtime.getURL("stories.html")
         })
@@ -57,29 +45,6 @@ chrome.runtime.onMessage.addListener(function (req, sender, res) {
 
         })
     }
-    //  else if (req.show == "got-name") {
-    //     console.log("Got name from content script")
-    //     //Open new tab now
-    //     chrome.tabs.create({
-    //         url: chrome.runtime.getURL("stories.html")
-    //     })
-    //     userName = req.userName;
-    // } else if (req.show == "ask-name") {
-    //     console.log("Message received asking for name and sending res back");
-    //     chrome.runtime.sendMessage({
-    //         show: "send-name",
-    //         userName: userName
-    //     })
-    // chrome.tabs.query({
-    //     active: true,
-    //     currentWindow: true
-    // }, function (tabs) {
-    //     chrome.tabs.sendMessage(tabs[0].id, {
-    //         show: "send-name",
-    //         userName: userName
-    //     });
-    // });
-    //}
     else if (req.show == "icon-change") {
         console.log("Icon change req received");
         chrome.browserAction.setIcon({
